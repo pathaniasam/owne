@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "775401816592",
+    "firebase_url": "https://farevet-inc-default-rtdb.firebaseio.com",
+    "project_id": "farevet-inc",
+    "storage_bucket": "farevet-inc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775401816592:android:3bc9c4c8ff78242f544095",
+        "android_client_info": {
+          "package_name": "com.petro.vetowners.vetownervets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775401816592-okesfa68ebetc5p19n9vs5b6u7in0ckf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petro.vetowners.vetownervets",
+            "certificate_hash": "dd496ab55fc605f96593d0ffda4390596fee5d97"
+          }
+        },
+        {
+          "client_id": "775401816592-l9fupoluaf6dd03154ker0m2sqog61s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLSdS7zuL7VAvDG6wPDcu219MXpeB3dGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775401816592-l9fupoluaf6dd03154ker0m2sqog61s8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "775401816592-61hug0cig0nm5924p3bfu1usq4d8kunh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petro.vetowners.vetownervets"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775401816592:android:7e1e0ad47e9ca3bb544095",
+        "android_client_info": {
+          "package_name": "com.vetside.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775401816592-g066j0anecelcg5avhm6ebg2jggefcva.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vetside.com",
+            "certificate_hash": "dd496ab55fc605f96593d0ffda4390596fee5d97"
+          }
+        },
+        {
+          "client_id": "775401816592-l9fupoluaf6dd03154ker0m2sqog61s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLSdS7zuL7VAvDG6wPDcu219MXpeB3dGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775401816592-l9fupoluaf6dd03154ker0m2sqog61s8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "775401816592-61hug0cig0nm5924p3bfu1usq4d8kunh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petro.vetowners.vetownervets"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
