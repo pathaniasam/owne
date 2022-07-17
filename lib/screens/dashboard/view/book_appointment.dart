@@ -14,102 +14,110 @@ import 'package:ownervet/utils/get_constant.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class BookAppointment extends GetView<DashBoardDetailController> {
-  var userlogin=GetStorage();
+  var userlogin = GetStorage();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashBoardDetailController>(
-        init:
-        Get.put<DashBoardDetailController>(DashBoardDetailController()),
+        init: Get.put<DashBoardDetailController>(DashBoardDetailController()),
         builder: (controller) {
           //controller.onInit();
           return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-
-          child:         Container(
-            decoration: BoxDecoration(
-                color: AppColors.lightgrey.withOpacity(0.8),
-
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15),)
-            ),
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-
-                        controller.isCouponApplied? Text("${controller.currency=="USD"?" \$":" CAD "}${controller.grandTotal.toString()}",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 18, color: Colors.grey,decoration: TextDecoration.lineThrough,)):
-                        Text("${controller.currency=="USD"?" \$":" CAD "}${controller.grandTotal.toString()}",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 18, color: Colors.black,  )),
-
-                        controller.isCouponApplied
-                            ? Text("${controller.currency=="USD"?" \$":" CAD "}${controller.total.toString()}",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 18, color: Colors.black))
-                            :SizedBox.shrink(),
-
-                      ],
+              bottomNavigationBar: BottomAppBar(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.lightgrey.withOpacity(0.8),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      )),
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                controller.isCouponApplied
+                                    ? Text(
+                                        "${controller.currency == "USD" ? " \$" : " CAD "}${controller.grandTotal.toStringAsFixed(2)}",
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 18,
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ))
+                                    : Text(
+                                        "${controller.currency == "USD" ? " \$" : " CAD "}${controller.grandTotal.toStringAsFixed(2)}",
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                        )),
+                                controller.isCouponApplied
+                                    ? Text(
+                                        "${controller.currency == "USD" ? " \$" : " CAD "}${controller.total.toStringAsFixed(2)}",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 18, color: Colors.black))
+                                    : SizedBox.shrink(),
+                              ],
+                            ),
+                          ),
+                          ElevatedButton(
+                              child: Text("Book Now".toUpperCase(),
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 14, color: Colors.white)),
+                              style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          AppColors.ButtonColor),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          side: BorderSide(
+                                              color: AppColors.ButtonColor)))),
+                              onPressed: () {
+                                if (userlogin.read(GetConstant.token) != null) {
+                                  if (userlogin.read(GetConstant.Payment) !=
+                                      null) {
+                                    if (DateTime.now().isBefore(DateFormat(
+                                            "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
+                                        .parse(userlogin
+                                            .read(GetConstant.Payment)))) {
+                                      controller.createAppointement();
+                                    } else {
+                                      Get.toNamed(AppRoutes.select_payment);
+                                    }
+                                  } else {
+                                    Get.toNamed(AppRoutes.select_payment);
+                                  }
+                                } else {
+                                  Get.offAllNamed(AppRoutes.LOGIN);
+                                }
+                              })
+                        ],
+                      ),
                     ),
                   ),
-                    ElevatedButton(
-                        child: Text("Book Now".toUpperCase(),
-                            style: GoogleFonts.montserrat(
-                                fontSize: 14, color: Colors.white)),
-                        style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Colors.white),
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(
-                                AppColors.ButtonColor),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: AppColors.ButtonColor)))),
-                        onPressed: () {
-                          if(userlogin.read(GetConstant.token)!=null ){
-                            if(   userlogin.read(GetConstant.Payment)!=null){
-                              if(DateTime.now().isBefore(DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z").parse(userlogin.read(GetConstant.Payment)))){
-                                controller.createAppointement();
-                              }else{
-                                Get.toNamed(AppRoutes.select_payment);
-
-                              }
-
-                            }else{
-                              Get.toNamed(AppRoutes.select_payment);
-
-                            }
-                          }else{
-                            Get.offAllNamed(AppRoutes.LOGIN);
-                          }
-                        })
-                  ],
                 ),
               ),
-            ),
-          ),
-        ),
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(80),
-            child: AppUtils().appBar(
-              "Book Appointment",
-              "assets/images/cancel.png",
-              "assets/images/help.png",
-              endIcon,
-              leadingIcon,
-            )),
-        body:  SingleChildScrollView(
+              appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(80),
+                  child: AppUtils().appBar(
+                    "Book Appointment",
+                    "assets/images/cancel.png",
+                    "assets/images/help.png",
+                    endIcon,
+                    leadingIcon,
+                  )),
+              body: SingleChildScrollView(
                 child: SafeArea(
                     child: Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
@@ -129,8 +137,9 @@ class BookAppointment extends GetView<DashBoardDetailController> {
                           child: SfCalendar(
                             view: CalendarView.month,
                             todayHighlightColor: AppColors.ButtonColor,
-selectionDecoration: BoxDecoration(
-border: Border.all(color:AppColors.ButtonColor )),
+                            selectionDecoration: BoxDecoration(
+                                border:
+                                    Border.all(color: AppColors.ButtonColor)),
                             onTap: (value) {
                               print("Time" + value.date.toString());
                               controller.changeDate(value.date!);
@@ -147,7 +156,7 @@ border: Border.all(color:AppColors.ButtonColor )),
                           )),
                       Container(
                         width: double.infinity,
-                        margin: EdgeInsets.only(left: 15,bottom: 10),
+                        margin: EdgeInsets.only(left: 15, bottom: 10),
                         child: Text(
                           "Time",
                           style: GoogleFonts.montserrat(
@@ -189,11 +198,13 @@ border: Border.all(color:AppColors.ButtonColor )),
                                               DateFormat("hh:mm").parse(
                                                   controller.slots[index])),
                                           textAlign: TextAlign.center,
-                                              style: TextStyle(color:  controller.selectSlot != null
-                                                  ? controller.selectSlot == index
-                                                  ? AppColors.white
-                                                  : Colors.black
-                                                  : Colors.black,),
+                                          style: TextStyle(
+                                            color: controller.selectSlot != null
+                                                ? controller.selectSlot == index
+                                                    ? AppColors.white
+                                                    : Colors.black
+                                                : Colors.black,
+                                          ),
                                         )),
                                       ),
                                     );
@@ -392,19 +403,13 @@ border: Border.all(color:AppColors.ButtonColor )),
                           },
                         ),
                       ),
-
-
                       Container(
-
-                        margin:
-                        EdgeInsets.only(top: 15 ),
+                        margin: EdgeInsets.only(top: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(24)),
                           color: AppColors.white,
-
                         ),
                         child: DropdownButtonFormField2(
-
                           decoration: InputDecoration(
                             //Add isDense true and zero Padding.
                             //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
@@ -412,7 +417,11 @@ border: Border.all(color:AppColors.ButtonColor )),
                             fillColor: Colors.green,
 
                             contentPadding: EdgeInsets.zero,
-                            errorStyle: TextStyle(fontSize: 10,fontFamily: "Quicksand",fontWeight: FontWeight.w500,color: AppColors.green),
+                            errorStyle: TextStyle(
+                                fontSize: 10,
+                                fontFamily: "Quicksand",
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.green),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -420,20 +429,18 @@ border: Border.all(color:AppColors.ButtonColor )),
                                   width: 1.0,
                                 )),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
-                                )
-                            ),
+                                )),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(15),
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
-                                )
-
-                            ),
+                                )),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -442,7 +449,6 @@ border: Border.all(color:AppColors.ButtonColor )),
                             //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                           ),
                           isExpanded: true,
-
                           hint: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: const Text(
@@ -450,39 +456,36 @@ border: Border.all(color:AppColors.ButtonColor )),
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
-
                           icon: const Icon(
                             Icons.arrow_drop_down,
                             color: Colors.black45,
                           ),
                           iconSize: 30,
                           buttonHeight: 50,
-                          buttonPadding: const EdgeInsets.only(left: 2, right: 10),
+                          buttonPadding:
+                              const EdgeInsets.only(left: 2, right: 10),
                           dropdownDecoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           items: controller.vistSelection
-                              .map((item) =>
-                              DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ))
+                              .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ))
                               .toList(),
                           validator: (value) {
                             if (value == null) {
                               return 'Please select visit.';
                             }
                           },
-
                           onChanged: (value) {
                             //Do something when changing the item if you want.
-                            controller.vistAppointemnt( value.toString());
-
+                            controller.vistAppointemnt(value.toString());
                           },
                           onSaved: (value) {
                             print(value.toString());
@@ -602,12 +605,11 @@ border: Border.all(color:AppColors.ButtonColor )),
                               ),
                             ),
                           )),
-
                     ],
                   ),
                 )),
-              ));});
-
+              ));
+        });
   }
 }
 
@@ -616,6 +618,5 @@ endIcon() {
 }
 
 leadingIcon() {
-  Get.back();
-
+  // Get.back();
 }

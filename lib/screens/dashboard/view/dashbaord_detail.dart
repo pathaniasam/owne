@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,11 +54,13 @@ class DashBoardDetails extends GetView<DashBoardDetailController> {
                                 controller.currency == "USD"
                                     ? Text(
                                         "\$ " +
-                                            controller.grandTotal.toString(),
+                                            controller.grandTotal
+                                                .toStringAsFixed(2),
                                         style: GoogleFonts.montserrat(
                                             fontSize: 18, color: Colors.black))
                                     : Text(
-                                        controller.grandTotal.toString() +
+                                        controller.grandTotal
+                                                .toStringAsFixed(2) +
                                             " CAD",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 18, color: Colors.black)),
@@ -103,6 +106,71 @@ class DashBoardDetails extends GetView<DashBoardDetailController> {
                             physics: AlwaysScrollableScrollPhysics(),
                             child: Column(
                               children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 200,
+                                  child: Stack(
+                                    children: [
+                                      CachedNetworkImage(
+                                        width: double.infinity,
+                                        imageUrl: controller.detailResponse
+                                                    .user!.profileImage ==
+                                                null
+                                            ? ""
+                                            : controller.detailResponse.user!
+                                                .profileImage!,
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                                "assets/images/rectangle.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Positioned(
+                                          right: 5,
+                                          top: 10,
+                                          child: controller
+                                                  .detailResponse.isFavourite!
+                                              ? Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 15),
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      controller
+                                                          .callFavouriteApi();
+                                                      controller.updateFavourite(
+                                                          !controller
+                                                              .detailResponse
+                                                              .isFavourite!);
+                                                    },
+                                                    icon: Icon(CupertinoIcons
+                                                        .heart_solid),
+                                                    color: Colors.red,
+                                                  ),
+                                                )
+                                              : Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 15),
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      controller
+                                                          .callFavouriteApi();
+                                                      controller.updateFavourite(
+                                                          !controller
+                                                              .detailResponse
+                                                              .isFavourite!);
+                                                    },
+                                                    icon: Icon(
+                                                        CupertinoIcons.heart),
+                                                    color: Colors.black,
+                                                  ),
+                                                ))
+                                    ],
+                                  ),
+                                ),
                                 /*       SliverAppBar(
                             expandedHeight: 200.0,
                             floating: false,
@@ -745,7 +813,7 @@ class DashBoardDetails extends GetView<DashBoardDetailController> {
                                                 Column(
                                                   children: [
                                                     Text(
-                                                      "${controller.detailResponse.services![index].price.toString()}${controller.currency == " USD" ? "\$" : " CAD"}",
+                                                      "${double.parse(controller.detailResponse.services![index].price.toString()).toStringAsFixed(2)}${controller.currency == " USD" ? "\$" : " CAD"}",
                                                       style: GoogleFonts
                                                           .montserrat(
                                                               color:
@@ -756,7 +824,7 @@ class DashBoardDetails extends GetView<DashBoardDetailController> {
                                                                       .w500),
                                                     ),
                                                     Text(
-                                                      "${controller.detailResponse.services![index].priceType.toString()}",
+                                                      "${controller.detailResponse.services![index].priceType}",
                                                       style: GoogleFonts
                                                           .montserrat(
                                                               color:

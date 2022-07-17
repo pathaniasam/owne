@@ -23,7 +23,6 @@ import 'package:ownervet/utils/color_constants.dart';
 import 'package:ownervet/utils/const_color.dart';
 import 'package:ownervet/utils/firestore_constants.dart';
 import 'package:ownervet/utils/get_constant.dart';
-import 'package:ownervet/utils/pref_util.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -98,7 +97,7 @@ class ChatPageState extends State<ChatPage> {
     super.initState();
     chatProvider = context.read<ChatProvider>();
     //authProvider = context.read<AuthProvider>();
-    logouts();
+    // logouts();
     _selectedUsers = {};
     getUserByLogin("own" + peerId).then((cubeUser) {
       _selectedUsers.add(cubeUser!.id!);
@@ -106,9 +105,9 @@ class ChatPageState extends State<ChatPage> {
         setState(() {});
       });
     }).catchError((error) {});
-    CallManager.instance.init(context);
+    // CallManager.instance.init(context);
 
-    getUserByLogin("own" + userlogin.read(GetConstant.id).toString())
+/*    getUserByLogin("own" + userlogin.read(GetConstant.id).toString())
         .then((cubeUser) {
       CubeUser users = CubeUser(
         id: cubeUser!.id!,
@@ -124,7 +123,7 @@ class ChatPageState extends State<ChatPage> {
         print(exception);
         //   _processLoginError(exception);
       });
-    });
+    });*/
 
     focusNode.addListener(onFocusChange);
     listScrollController.addListener(_scrollListener);

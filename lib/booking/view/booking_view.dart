@@ -461,7 +461,7 @@ class BookingView extends GetView<BookingController> {
       currencys = element.currency!;
       print(element.currency!);
     });
-    return "${price.toString()}${currencys.isEmpty ? "CAD" : "\$"}";
+    return "${price.toStringAsFixed(2)}${currencys.isEmpty ? "CAD" : "\$"}";
   }
 
   String spiltTiming(String value) {

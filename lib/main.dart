@@ -14,8 +14,7 @@ import 'package:ownervet/drawer/controllers/drawer_controllers.dart';
 import 'package:ownervet/routes/app_pages.dart';
 import 'package:ownervet/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ownervet/services/firebaseCallback.dart';
-import 'package:ownervet/services/local_notifications_services.dart';
+
 import 'package:ownervet/src/managers/call_manager.dart';
 import 'package:ownervet/src/managers/push_notifications_manager.dart';
 import 'package:ownervet/utils/get_constant.dart';

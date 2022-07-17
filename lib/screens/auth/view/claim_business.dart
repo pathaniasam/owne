@@ -1,18 +1,16 @@
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ownervet/routes/app_routes.dart';
 import 'package:ownervet/screens/auth/controller/claim_controller.dart';
-import 'package:ownervet/screens/auth/controller/create_account_controller.dart';
+import 'package:ownervet/utils/app_utils.dart';
 import 'package:ownervet/utils/const_color.dart';
 import 'package:ownervet/utils/custom_text_button.dart';
 import 'package:ownervet/utils/custom_text_field.dart';
 import 'package:ownervet/utils/validator.dart';
-
 
 class ClaimView extends GetView<ClaimControllerController> {
   var greenBorder = OutlineInputBorder(
@@ -25,6 +23,15 @@ class ClaimView extends GetView<ClaimControllerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppUtils().appBar(
+              "Claim Business",
+              "assets/images/cancel.png",
+              "assets/images/help.png",
+              endIcon,
+              leadingIcon,
+            )),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: GetBuilder<ClaimControllerController>(
@@ -38,19 +45,10 @@ class ClaimView extends GetView<ClaimControllerController> {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Claim Business",
-                                style: GoogleFonts.roboto(
-                                    fontSize: 24,
-                                    color: AppColors.selectedDotColor,
-                                    letterSpacing: 2.0),
-                              ),
-                              SizedBox(
                                 height: 8,
                               ),
-                              Container(
+
+                              /*       Container(
                                   width: double.infinity,
                                   child: Text(
                                     "Proffesional",
@@ -59,7 +57,7 @@ class ClaimView extends GetView<ClaimControllerController> {
                                       fontSize: 14,
                                       color: AppColors.selectedDotColor,
                                     ),
-                                  )),
+                                  )),*/
                               SizedBox(
                                 height: 16,
                               ),
@@ -155,12 +153,20 @@ class ClaimView extends GetView<ClaimControllerController> {
                                       return Validators.validatePassword(val);
                                     },
                                     maxLines: 1,
-                                    obscureText: controller.showPassword,//This will obscure text dynamically
+                                    obscureText: controller
+                                        .showPassword, //This will obscure text dynamically
 
-                                    suffixIcon:IconButton(icon:
-                                    ImageIcon(controller.showPassword?AssetImage("assets/images/hidden.png"):AssetImage("assets/images/eye.png")),onPressed: (){
-                                      controller.showPasswords(controller.showPassword);
-                                    },),
+                                    suffixIcon: IconButton(
+                                      icon: ImageIcon(controller.showPassword
+                                          ? AssetImage(
+                                              "assets/images/hidden.png")
+                                          : AssetImage(
+                                              "assets/images/eye.png")),
+                                      onPressed: () {
+                                        controller.showPasswords(
+                                            controller.showPassword);
+                                      },
+                                    ),
                                     border: controller
                                             .passwordController.text.isEmpty
                                         ? greenBorder
@@ -193,11 +199,18 @@ class ClaimView extends GetView<ClaimControllerController> {
                               SizedBox(
                                 height: 16,
                               ),
-
                             ],
                           ),
                         ),
                       ));
                     }))));
+  }
+
+  endIcon() {
+    Get.back();
+  }
+
+  leadingIcon() {
+    Get.back();
   }
 }

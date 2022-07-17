@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ownervet/model/request/appointment_create_request.dart';
 import 'package:ownervet/model/request/slot.dart';
 import 'package:ownervet/model/request/verfiy_request.dart';
 import 'package:ownervet/model/response/all_pet_response.dart';
-import 'package:ownervet/model/response/category_filter_response.dart';
 import 'package:ownervet/model/response/home_detail_response.dart';
 import 'package:ownervet/model/response/login_response.dart';
 import 'package:ownervet/model/response/slot_response.dart';
@@ -21,7 +19,7 @@ import 'package:ownervet/utils/get_constant.dart';
 
 class DashBoardDetailController extends GetxController {
   String? id;
-  HomeDetailResponse  detailResponse = HomeDetailResponse();
+  HomeDetailResponse detailResponse = HomeDetailResponse();
   TextEditingController paymentController = TextEditingController();
   TextEditingController addNotes = TextEditingController();
   TextEditingController verifyController = TextEditingController();
@@ -61,25 +59,26 @@ class DashBoardDetailController extends GetxController {
   final List<String> vistSelection = [
     'Office Visit',
     'Call Appointment',
+    'Chat'
   ];
-  String promoCode="";
-  String currency="";
-  String officeVisitAppointment="";
-  var isDashLoad=false;
+  String promoCode = "";
+  String currency = "";
+  String officeVisitAppointment = "";
+  var isDashLoad = false;
 
   @override
   void onInit() {
     super.onInit();
 
     getDetail();
-   getSlotCallApi();
+    getSlotCallApi();
     callAddPetProfile();
   }
 
   void getDetail() {
     AppUtils().checkInternet().then((value) {
       if (value) {
-        isDashLoad=true;
+        isDashLoad = true;
         update();
         ApiHelper.get(NetworkUtils.professional + id.toString(),
                 authtoken: userLogin.read(GetConstant.token))
@@ -88,11 +87,10 @@ class DashBoardDetailController extends GetxController {
               HomeDetailResponse.fromJson(jsonDecode(values.data));
           detailResponse = response;
           filterServices.addAll(detailResponse.services!);
-          if(filterServices.length!=0){
-            currency  =  filterServices.first.currency!;
-
+          if (filterServices.length != 0) {
+            currency = filterServices.first.currency!;
           }
-          isDashLoad=false;
+          isDashLoad = false;
 
           update();
         });
@@ -128,7 +126,7 @@ class DashBoardDetailController extends GetxController {
         SlotRequest request = SlotRequest(
             date:
                 "${currentDate2.year.toString()}-${currentDate2.month.toString().padLeft(2, "0")}-${currentDate2.day.toString().padLeft(2, "0")}");
-        ApiHelper.get(NetworkUtils.professionalSLot + id.toString()+"/slots",
+        ApiHelper.get(NetworkUtils.professionalSLot + id.toString() + "/slots",
                 params: request.toJson(),
                 authtoken: userLogin.read(GetConstant.token))
             .then((values) {
@@ -177,14 +175,13 @@ class DashBoardDetailController extends GetxController {
     AppUtils().checkInternet().then((value) {
       if (addServices.length < 0) {
         return;
-      }
-      else if(officeVisitAppointment.isEmpty){
+      } else if (officeVisitAppointment.isEmpty) {
         AppUtils.Snackbar("Office Vist", "Please select appointemnt vist");
         return;
-      }else if(petId==null){
+      } else if (petId == null) {
         AppUtils.Snackbar("Pet", "Please select pet");
         return;
-      }else if(slotValue==null){
+      } else if (slotValue == null) {
         AppUtils.Snackbar("Time slot", "Please select time slot");
         return;
       }
@@ -206,7 +203,6 @@ class DashBoardDetailController extends GetxController {
             sub_total: grandTotal.toDouble(),
             promocode: promoCode,
             discount: discountOffer.toDouble(),
-
             currency: currency,
             type: officeVisitAppointment,
             timing:
@@ -215,9 +211,10 @@ class DashBoardDetailController extends GetxController {
                 body: request.toJson(),
                 authtoken: userLogin.read(GetConstant.token))
             .then((values) {
-              LoginResponse response=LoginResponse.fromJson(jsonDecode(values!.data));
-              AppUtils.Snackbar("Success", response.message);
-              Get.offAllNamed(AppRoutes.HOME);
+          LoginResponse response =
+              LoginResponse.fromJson(jsonDecode(values!.data));
+          AppUtils.Snackbar("Success", response.message);
+          Get.offAllNamed(AppRoutes.HOME);
         });
       } else {}
     });
@@ -249,11 +246,11 @@ class DashBoardDetailController extends GetxController {
 
             double discount = 100.00 - response.discount!;
             total = ((discount * grandTotal) / 100);
-            total=double.parse(total.toStringAsFixed(2));
+            total = double.parse(total.toStringAsFixed(2));
 
             isCouponApplied = true;
-            promoCode=promoCode;
-            discountOffer=response.discount!.toDouble();
+            promoCode = promoCode;
+            discountOffer = response.discount!.toDouble();
             update();
           } else {
             LoginResponse response =
@@ -261,9 +258,9 @@ class DashBoardDetailController extends GetxController {
 
             AppUtils.Snackbar("Error", response.message);
             isCouponApplied = false;
-            total=grandTotal;
-            discountOffer=0.0;
-            promoCode="";
+            total = grandTotal;
+            discountOffer = 0.0;
+            promoCode = "";
             update();
           }
         });
@@ -279,28 +276,24 @@ class DashBoardDetailController extends GetxController {
     update();
   }
 
-
-  vistAppointemnt(String value){
-    officeVisitAppointment=value;
+  vistAppointemnt(String value) {
+    officeVisitAppointment = value;
     update();
   }
 
-  updateFavourite(bool isFav){
-    detailResponse.isFavourite =isFav;
+  updateFavourite(bool isFav) {
+    detailResponse.isFavourite = isFav;
     update();
-
   }
 
-  
-  callFavouriteApi(){
+  callFavouriteApi() {
     AppUtils().checkInternet().then((value) {
-     if(value){
-      ApiHelper.put(NetworkUtils.professional+id.toString()+"/"+"favourite",authtoken: userLogin.read(GetConstant.token)).then((values) {
-
-      });
-     }else{
-       
-     }
+      if (value) {
+        ApiHelper.put(
+                NetworkUtils.professional + id.toString() + "/" + "favourite",
+                authtoken: userLogin.read(GetConstant.token))
+            .then((values) {});
+      } else {}
     });
   }
 }
